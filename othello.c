@@ -1,17 +1,27 @@
 #include <stdio.h>
 #define row 8
 #define column 8
+#define white 2
+#define black 1
 
 void defineTable(int table[row][column],char *argv[]);
-void printTable(int table[row][column]);
 
 int main(int argc,char *argv[])
 {
     int table[row][column];
+    const int player = argv[9]-48;
 
-    defineTable(table,argv);
-    printTable(table);
-    
+    defineTable(int table[row][column],char *argv[]);
+
+    for(int i=0;i<8;i++)
+    {
+        for(int j=0;j<8;j++)
+        {
+            printf("%d",table[i][j]);
+        }
+        puts("");
+    }
+
     
     // int counter;
     // printf("Program Name Is: %s",argv[0]);
@@ -34,19 +44,9 @@ void defineTable(int table[row][column],char *argv[])
     {
         for(int j=0;j<8;j++)
         {
-            table[i][j]= argv[i+1][j] - 48 ;
+            table[i][j]= argv[i-1][j] - 30 ;
         }
     }
 
 }
 
-void printTable(int table[row][column]){
-    puts("");
-    for(int i=0;i<row;i++){
-        for(int j=0;j<column;j++){
-            printf("%d ",table[i][j]);
-        }
-        puts("");
-    }
-
-}
