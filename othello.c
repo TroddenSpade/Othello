@@ -3,22 +3,15 @@
 #define column 8
 
 void defineTable(int table[row][column],char *argv[]);
+void printTable(int table[row][column]);
 
 int main(int argc,char *argv[])
 {
     int table[row][column];
 
-    defineTable(int table[row][column],char *argv[]);
-
-    for(int i=0;i<8;i++)
-    {
-        for(int j=0;j<8;j++)
-        {
-            printf("%d",table[i][j]);
-        }
-        puts("");
-    }
-
+    defineTable(table,argv);
+    printTable(table);
+    
     
     // int counter;
     // printf("Program Name Is: %s",argv[0]);
@@ -41,9 +34,19 @@ void defineTable(int table[row][column],char *argv[])
     {
         for(int j=0;j<8;j++)
         {
-            table[i][j]= argv[i-1][j] - 30 ;
+            table[i][j]= argv[i+1][j] - 48 ;
         }
     }
 
 }
 
+void printTable(int table[row][column]){
+    puts("");
+    for(int i=0;i<row;i++){
+        for(int j=0;j<column;j++){
+            printf("%d ",table[i][j]);
+        }
+        puts("");
+    }
+
+}
