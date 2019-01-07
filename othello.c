@@ -3,7 +3,7 @@
 int main(int argc,char *argv[])
 {
     int counter;
-    printf("Program Name IS: %S",argv[0]);
+    printf("Program Name Is: %s",argv[0]);
     if(argc==1)
         printf("\nNo Extra Command Line Argument passed Other Than program Name");
     if(argc>=2)
