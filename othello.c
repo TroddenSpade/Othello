@@ -1,6 +1,18 @@
 #include <stdio.h>
 
-int main(){
+int main(int argc,char *argv[])
+{
+    int counter;
+    printf("Program Name IS: %S",argv[0]);
+    if(argc==1)
+        printf("\nNo Extra Command Line Argument passed Other Than program Name");
+    if(argc>=2)
+    {
+        printf("\nNumber Of Arguments passed: %d",argc);
+        printf("\n----Following Are The Command Line Arguments Passed----");
+        for(counter=0;counter<argc;counter++)
+            printf("\nargv[%d]:%s",counter,argv[counter]);
+    }
 
     return 0;
 }
