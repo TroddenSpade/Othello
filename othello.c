@@ -1,6 +1,8 @@
 #include <stdio.h>
 #define row 8
 #define column 8
+#define black 1
+#define white 2
 
 void defineTable(int table[row][column],char *argv[]);
 void printTable(int table[row][column]);
@@ -8,6 +10,7 @@ void printTable(int table[row][column]);
 int main(int argc,char *argv[])
 {
     int table[row][column];
+    int const player=arvg[9]-48;
 
     defineTable(table,argv);
     printTable(table);
