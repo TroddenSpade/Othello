@@ -10,7 +10,7 @@ void printTable(int table[row][column]);
 int main(int argc,char *argv[])
 {
     int table[row][column];
-    int const player=arvg[9]-48;
+    int const Player=arvg[9]-48;
 
     defineTable(table,argv);
     printTable(table);
