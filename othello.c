@@ -29,12 +29,19 @@ int main(int argc,char *argv[])
 {
     int table[row][column]={
         {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+
         {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+
+        {0 ,0 ,0 ,0 ,0 ,1 ,0 ,0},
+
+        {0 ,0 ,0 ,2 ,1 ,1 ,0 ,0},
+
+        {0 ,0 ,0 ,1 ,2 ,1 ,0 ,0},
+
+        {0 ,0 ,1 ,2 ,0 ,2 ,0 ,0},
+
         {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
-        {0 ,0 ,0 ,1 ,2 ,0 ,0 ,0},
-        {0 ,0 ,0 ,2 ,1 ,0 ,0 ,0},
-        {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
-        {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+
         {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0}
     };
 
@@ -192,34 +199,34 @@ void validSquares(const int table[row][column],int player){
 
     for(int i=0;i<8;i++){
         for(int j=0;j<8;j++){
-                    if(table[j][i]>0){
-                        continue;
-                    }
-                    else if(validSE(j,i,j,i,table,player) != -1){
-                        printf("%d\n",validSE(j,i,j,i,table,player));
-                        
-                    }else if(validSW(j,i,j,i,table,player) != -1){
-                        printf("%d\n",validSW(j,i,j,i,table,player));
+            if(table[i][j]>0){
+                continue;
+            }
+            else if(validSE(j,i,j,i,table,player) != -1){
+                printf("%d\n",validSE(j,i,j,i,table,player));
+                
+            }else if(validSW(j,i,j,i,table,player) != -1){
+                printf("%d\n",validSW(j,i,j,i,table,player));
 
-                    }else if(validSouth(j,i,j,i,table,player) != -1){
-                        printf("%d\n",validSouth(j,i,j,i,table,player));
+            }else if(validSouth(j,i,j,i,table,player) != -1){
+                printf("%d\n",validSouth(j,i,j,i,table,player));
 
-                    }else if(validNE(j,i,j,i,table,player) != -1){
-                        printf("%d\n",validNE(j,i,j,i,table,player));
+            }else if(validNE(j,i,j,i,table,player) != -1){
+                printf("%d\n",validNE(j,i,j,i,table,player));
 
-                    }else if(validNW(j,i,j,i,table,player) != -1){
-                        printf("%d\n",validNW(j,i,j,i,table,player));
+            }else if(validNW(j,i,j,i,table,player) != -1){
+                printf("%d\n",validNW(j,i,j,i,table,player));
 
-                    }else if(validNorth(j,i,j,i,table,player) != -1){
-                        printf("%d\n",validNorth(j,i,j,i,table,player));
+            }else if(validNorth(j,i,j,i,table,player) != -1){
+                printf("%d\n",validNorth(j,i,j,i,table,player));
 
-                    }else if(validEast(j,i,j,i,table,player) != -1){
-                        printf("%d\n",validEast(j,i,j,i,table,player));
+            }else if(validEast(j,i,j,i,table,player) != -1){
+                printf("%d\n",validEast(j,i,j,i,table,player));
 
-                    }else if(validWest(j,i,j,i,table,player) != -1){
-                        printf("%d\n",validWest(j,i,j,i,table,player));
+            }else if(validWest(j,i,j,i,table,player) != -1){
+                printf("%d\n",validWest(j,i,j,i,table,player));
 
-                    }
+            }
         }
     }
 }
