@@ -8,10 +8,30 @@
 #define black 1
 #define white 2
 
+int const Position[row*column]={
+    99 ,-8 ,8  ,6  ,6  ,8  ,-8 ,99 ,
+
+    -8 ,-24,-4 ,-3 ,-3 ,-4 ,-24,-8 ,
+
+    8  ,-4 ,7  ,4  ,4  ,7  ,-4 ,8  ,
+
+    6  ,-3 ,4  ,0  ,0  ,4  ,-3 ,6  ,
+
+    6  ,-3 ,4  ,0  ,0  ,4  ,-3 ,6  ,
+
+    8  ,-4 ,7  ,4  ,4  ,7  ,-4 ,8  ,
+
+    -8 ,-24,-4 ,-3 ,-3 ,-4 ,-24,-8 ,
+
+    99 ,-8 ,8  ,6  ,6  ,8  ,-8 ,99
+};
 
 void defineTable(int table[row][column],char *argv[]);
 void printTable(int table[row][column]);
+
+//////////////////////// Strategies ////////////////////////////////////
 int random(const int table[row][column],int player,int listOfValidSquares[]);
+int positional(const int table[row][column],int player,int listOfValidSquares[]);
 
 //////////////////////// Valid Moves ///////////////////////////////////
 int isInTable(int x ,int y);
@@ -23,15 +43,14 @@ int validNW(int x0,int y0 ,int x ,int y, const int table[row][column],int player
 int validNE(int x0,int y0 ,int x ,int y, const int table[row][column],int player);
 int validSW(int x0,int y0 ,int x ,int y, const int table[row][column],int player);
 int validSE(int x0,int y0 ,int x ,int y, const int table[row][column],int player);
-
 int validSquares(const int table[row][column],int player,int listOfValidSquares[]);
+
 ////////////////////////////////////////////////////////////////////////
 
 
 
 int main(int argc,char *argv[])
 {
-
     int table[row][column];
     // int table[row][column]={
     //     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
@@ -57,26 +76,14 @@ int main(int argc,char *argv[])
 
     defineTable(table,argv);
 
-    int num = random(table,Player,listOfValidSquares);
+    // int num = random(table,Player,listOfValidSquares);
+    int num = positional(table,Player,listOfValidSquares);
+
     // printTable(table);
-    
-    printf("%d,%d",num%8,num/8);
+    printf("%d %d",num%8,num/8);
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void defineTable(int table[row][column],char *argv[])
 {
@@ -104,19 +111,14 @@ void printTable(int table[row][column]){
 
 }
 
-int random(const int table[row][column],int player,int listOfValidSquares[]){
-    int size = validSquares(table , player ,listOfValidSquares);
-    if(size ==0)    return -1;
-    srand(time(NULL));
-    return listOfValidSquares[rand()%size];
-}
+
 
 ///////////////////////////////////////////////////////////////////////////
 /////////////////////// Valid Moves Function //////////////////////////////
 
 int isInTable(int x,int y){
     if(x < 8 && x>=0 && y<8 && y>=0)    return 1;
-    else    return 0; 
+    else    return 0;
 }
 
 int validNorth(int x0,int y0 ,int x ,int y, const int table[row][column],int player){    ////
@@ -226,7 +228,7 @@ int validSquares(const int table[row][column],int player,int listOfValidSquares[
             else if(validSE(j,i,j,i,table,player) != -1){
                 listOfValidSquares[k]=validSE(j,i,j,i,table,player);
                 k++;
-                
+
             }else if(validSW(j,i,j,i,table,player) != -1){
                 listOfValidSquares[k]=validSW(j,i,j,i,table,player);
                 k++;
@@ -261,3 +263,24 @@ int validSquares(const int table[row][column],int player,int listOfValidSquares[
 
     return k;
 }
+
+///////////////////////////// Strategies ///////////////////////////////////////
+
+int random(const int table[row][column],int player,int listOfValidSquares[]){
+    int size = validSquares(table , player ,listOfValidSquares);
+    if(size ==0)    return -1;
+    srand(time(NULL));
+    return listOfValidSquares[rand()%size];
+}
+
+int positional(const int table[row][column],int player,int listOfValidSquares[]){
+    int size = validSquares(table , player ,listOfValidSquares);
+    if(size ==0)    return -1;
+
+    int bestPos = listOfValidSquares[0];
+    for(int i=0;i<size;i++){
+        if(bestPos < Position[listOfValidSquares[i]])   bestPos = listOfValidSquares[i];
+    }
+    return bestPos ;
+}
+
