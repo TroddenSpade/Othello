@@ -1,13 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
+#include <time.h>
 
 #define row 8
 #define column 8
 #define black 1
 #define white 2
 
+
 void defineTable(int table[row][column],char *argv[]);
 void printTable(int table[row][column]);
+int random(const int table[row][column],int player,int listOfValidSquares[]);
 
 //////////////////////// Valid Moves ///////////////////////////////////
 int isInTable(int x ,int y);
@@ -20,53 +24,59 @@ int validNE(int x0,int y0 ,int x ,int y, const int table[row][column],int player
 int validSW(int x0,int y0 ,int x ,int y, const int table[row][column],int player);
 int validSE(int x0,int y0 ,int x ,int y, const int table[row][column],int player);
 
-void validSquares(const int table[row][column],int player);
+int validSquares(const int table[row][column],int player,int listOfValidSquares[]);
+////////////////////////////////////////////////////////////////////////
 
-/////////////////
 
 
 int main(int argc,char *argv[])
 {
-    int table[row][column]={
-        {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-        {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+    int table[row][column];
+    // int table[row][column]={
+    //     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-        {0 ,0 ,0 ,0 ,0 ,1 ,0 ,0},
+    //     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-        {0 ,0 ,0 ,2 ,1 ,1 ,0 ,0},
+    //     {0 ,0 ,0 ,0 ,0 ,1 ,0 ,0},
 
-        {0 ,0 ,0 ,1 ,2 ,1 ,0 ,0},
+    //     {0 ,0 ,0 ,2 ,1 ,1 ,0 ,0},
 
-        {0 ,0 ,1 ,2 ,0 ,2 ,0 ,0},
+    //     {0 ,0 ,0 ,1 ,2 ,1 ,0 ,0},
 
-        {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+    //     {0 ,0 ,1 ,2 ,0 ,2 ,0 ,0},
 
-        {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0}
-    };
+    //     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-    // int const Player= argv[9][0]-48;
+    //     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0}
+    // };
 
-    // defineTable(table,argv);
+    int listOfValidSquares[64];
 
-    validSquares(table,1);
-    printTable(table);
+    int const Player= argv[9][0]-48;
+
+    defineTable(table,argv);
+
+    int num = random(table,Player,listOfValidSquares);
+    // printTable(table);
     
-    
-    // int counter;
-    // printf("Program Name Is: %s",argv[0]);
-    // if(argc==1)
-    //     printf("\nNo Extra Command Line Argument passed Other Than program Name");
-    // if(argc>=2)
-    // {
-    //     printf("\nNumber Of Arguments passed: %d\n",argc);
-    //     printf("\n----Following Are The Command Line Arguments Passed----");
-    //     for(counter=0;counter<argc;counter++)
-    //         printf("\nargv[%d]:%s",counter,argv[counter]);
-    // }
+    printf("%d,%d",num%8,num/8);
 
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void defineTable(int table[row][column],char *argv[])
 {
@@ -81,14 +91,24 @@ void defineTable(int table[row][column],char *argv[])
 }
 
 void printTable(int table[row][column]){
+    printf("%s","   ");
+    for(int i=0;i<column;i++)   printf("%d ",i);
     puts("");
     for(int i=0;i<row;i++){
+        printf("%d :",i);
         for(int j=0;j<column;j++){
             printf("%d ",table[i][j]);
         }
         puts("");
     }
 
+}
+
+int random(const int table[row][column],int player,int listOfValidSquares[]){
+    int size = validSquares(table , player ,listOfValidSquares);
+    if(size ==0)    return -1;
+    srand(time(NULL));
+    return listOfValidSquares[rand()%size];
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -195,7 +215,8 @@ int validSE(int x0,int y0 ,int x ,int y, const int table[row][column],int player
     else    return  validSE(x0,y0,x,y,table,player);
 }
 
-void validSquares(const int table[row][column],int player){
+int validSquares(const int table[row][column],int player,int listOfValidSquares[]){
+    int k =0;
 
     for(int i=0;i<8;i++){
         for(int j=0;j<8;j++){
@@ -203,33 +224,40 @@ void validSquares(const int table[row][column],int player){
                 continue;
             }
             else if(validSE(j,i,j,i,table,player) != -1){
-                printf("%d\n",validSE(j,i,j,i,table,player));
+                listOfValidSquares[k]=validSE(j,i,j,i,table,player);
+                k++;
                 
             }else if(validSW(j,i,j,i,table,player) != -1){
-                printf("%d\n",validSW(j,i,j,i,table,player));
+                listOfValidSquares[k]=validSW(j,i,j,i,table,player);
+                k++;
 
             }else if(validSouth(j,i,j,i,table,player) != -1){
-                printf("%d\n",validSouth(j,i,j,i,table,player));
+                listOfValidSquares[k]=validSouth(j,i,j,i,table,player);
+                k++;
 
             }else if(validNE(j,i,j,i,table,player) != -1){
-                printf("%d\n",validNE(j,i,j,i,table,player));
+                listOfValidSquares[k]=validNE(j,i,j,i,table,player);
+                k++;
 
             }else if(validNW(j,i,j,i,table,player) != -1){
-                printf("%d\n",validNW(j,i,j,i,table,player));
+                listOfValidSquares[k]=validNW(j,i,j,i,table,player);
+                k++;
 
             }else if(validNorth(j,i,j,i,table,player) != -1){
-                printf("%d\n",validNorth(j,i,j,i,table,player));
+                listOfValidSquares[k]=validNorth(j,i,j,i,table,player);
+                k++;
 
             }else if(validEast(j,i,j,i,table,player) != -1){
-                printf("%d\n",validEast(j,i,j,i,table,player));
+                listOfValidSquares[k]=validEast(j,i,j,i,table,player);
+                k++;
 
             }else if(validWest(j,i,j,i,table,player) != -1){
-                printf("%d\n",validWest(j,i,j,i,table,player));
+                listOfValidSquares[k]=validWest(j,i,j,i,table,player);
+                k++;
 
             }
         }
     }
-}
 
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
+    return k;
+}
