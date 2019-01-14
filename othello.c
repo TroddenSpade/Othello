@@ -57,13 +57,13 @@ int main(int argc,char *argv[])
 
     //     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-    //     {0 ,0 ,0 ,0 ,0 ,1 ,0 ,0},
+    //     {0 ,0 ,0 ,1 ,2 ,0 ,0 ,0},
 
-    //     {0 ,0 ,0 ,2 ,1 ,1 ,0 ,0},
+    //     {0 ,0 ,0 ,1 ,2 ,0 ,0 ,0},
 
-    //     {0 ,0 ,0 ,1 ,2 ,1 ,0 ,0},
+    //     {0 ,0 ,0 ,1 ,2 ,0 ,0 ,0},
 
-    //     {0 ,0 ,1 ,2 ,0 ,2 ,0 ,0},
+    //     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
     //     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
@@ -277,10 +277,14 @@ int positional(const int table[row][column],int player,int listOfValidSquares[])
     int size = validSquares(table , player ,listOfValidSquares);
     if(size ==0)    return -1;
 
-    int bestPos = listOfValidSquares[0];
-    for(int i=0;i<size;i++){
-        if(bestPos < Position[listOfValidSquares[i]])   bestPos = listOfValidSquares[i];
+    int bestPos = Position[listOfValidSquares[0]];
+    int bestSqr = 0;
+    for(int i=1;i<size;i++){
+        if(bestPos < Position[listOfValidSquares[i]]){
+            bestPos = Position[listOfValidSquares[i]];
+            bestSqr = i;
+        }
     }
-    return bestPos ;
+    return listOfValidSquares[bestSqr] ;
 }
 
