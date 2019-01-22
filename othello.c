@@ -409,8 +409,18 @@ int positional(const int table[row][column],int player,int listOfValidSquares[])
 }
 
 int evalBoard(const int table[row][column],int player,int listOfValidSquares[]){
-
-
+    int bestSqr;
+    int bestValue=-1;
+    for(int i=0;i<validSquares(table,player,listOfValidSquares);i++){
+        int x=listOfValidSquares[i]%8;
+        int y=listOfValidSquares[i]/8;
+        if (bestvalue<eval(table,player))
+        {
+            bestval=eval(table,player);
+            bestsqr=listOfValidSquares[i];
+        }
+    }     
+    return bestSqr;
 }
 
 int eval(const int table[row][column],int player)
