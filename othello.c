@@ -392,4 +392,13 @@ int positional(const int table[row][column],int player,int listOfValidSquares[])
 
 int evalBoard(const int table[row][column],int player,int listOfValidSquares[]){
 
+
+}
+
+int copyBoard(const int table[row][column],int board[row][column]){
+    for(int i=0;i<column;i++){
+        for(int j=0;j<row;j++){
+            board[i][j]=table[i][j];
+        }
+    }
 }
