@@ -26,6 +26,24 @@ int const Position[row*column]={
     99 ,-8 ,8  ,6  ,6  ,8  ,-8 ,99
 };
 
+int const Position2d[row][column]={
+   { 99 ,-8 ,8  ,6  ,6  ,8  ,-8 ,99} ,
+
+    {-8 ,-24,-4 ,-3 ,-3 ,-4 ,-24,-8 },
+
+    {8  ,-4 ,7  ,4  ,4  ,7  ,-4 ,8  },
+
+    {6  ,-3 ,4  ,0  ,0  ,4  ,-3 ,6  },
+
+    {6  ,-3 ,4  ,0  ,0  ,4  ,-3 ,6  },
+
+    {8  ,-4 ,7  ,4  ,4  ,7  ,-4 ,8  },
+
+    {-8 ,-24,-4 ,-3 ,-3 ,-4 ,-24,-8 },
+
+    {99 ,-8 ,8  ,6  ,6  ,8  ,-8 ,99}
+};
+
 void defineTable(int table[row][column],char *argv[]);
 void printTable(int table[row][column]);
 
@@ -393,6 +411,20 @@ int positional(const int table[row][column],int player,int listOfValidSquares[])
 int evalBoard(const int table[row][column],int player,int listOfValidSquares[]){
 
 
+}
+
+int eval(const int table[row][column],int player)
+{
+    int count=0;
+    for(int i=0;i<row;i++)
+    {
+        for(int j=0;j<column;j++)
+        {
+            if (table[i][j]==player)
+                count+=Position2d[i][j];
+        }
+    }
+    return count;
 }
 
 int copyBoard(const int table[row][column],int board[row][column]){
