@@ -46,41 +46,50 @@ int validSE(int x0,int y0 ,int x ,int y, const int table[row][column],int player
 int validSquares(const int table[row][column],int player,int listOfValidSquares[]);
 
 ////////////////////////////////////////////////////////////////////////
-
+int flipNorth(int x ,int y, int table[row][column],int player);
+int flipSouth(int x ,int y, int table[row][column],int player);
+int flipWest(int x ,int y, int table[row][column],int player);
+int flipEast(int x ,int y, int table[row][column],int player);
+int flipNE(int x ,int y, int table[row][column],int player);
+int flipNW(int x ,int y, int table[row][column],int player);
+int flipSE(int x ,int y, int table[row][column],int player);
+int flipSW(int x ,int y, int table[row][column],int player);
+void doFlip(int x ,int y, int table[row][column],int player);
 
 
 int main(int argc,char *argv[])
 {
-    int table[row][column];
-    // int table[row][column]={
-    //     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+    // int table[row][column];
+    int table[row][column]={
+        {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-    //     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+        {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-    //     {0 ,0 ,0 ,1 ,2 ,0 ,0 ,0},
+        {0 ,0 ,0 ,1 ,2 ,0 ,0 ,0},
 
-    //     {0 ,0 ,0 ,1 ,2 ,0 ,0 ,0},
+        {0 ,0 ,0 ,1 ,2 ,0 ,0 ,0},
 
-    //     {0 ,0 ,0 ,1 ,2 ,0 ,0 ,0},
+        {0 ,0 ,0 ,1 ,2 ,0 ,0 ,0},
 
-    //     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+        {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-    //     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+        {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-    //     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0}
-    // };
+        {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0}
+    };
 
     int listOfValidSquares[64];
 
-    int const Player= argv[9][0]-48;
+    // int const Player= argv[9][0]-48;
 
-    defineTable(table,argv);
+    // defineTable(table,argv);
 
     // int num = random(table,Player,listOfValidSquares);
-    int num = positional(table,Player,listOfValidSquares);
-
-    // printTable(table);
-    printf("%d %d",num%8,num/8);
+    // int num = positional(table,Player,listOfValidSquares);
+    doFlip(5,2,table,1);
+    printTable(table);
+    // printf("%d %d",num%8,num/8);
+    // printf("%d",validWest(5,2,5,2,table,1));
 
     return 0;
 }
@@ -264,6 +273,99 @@ int validSquares(const int table[row][column],int player,int listOfValidSquares[
     return k;
 }
 
+///////////////////////////////   Flip    //////////////////////////////////////
+
+int flipNorth(int x ,int y, int table[row][column],int player){    ////
+    if (validNorth(x,y,x,y,table,player)== -1)  return 0;
+    table[y][x] =player;
+    y-=1;
+    while(table[y][x] == 3 - player){
+        table[y][x]= player;
+        y-=1;
+    }
+}
+
+int flipSouth(int x ,int y, int table[row][column],int player){    ////
+    if (validSouth(x,y,x,y,table,player)== -1)  return 0;
+    table[y][x] =player;
+    y+=1;
+    while(table[y][x] == 3 - player){
+        table[y][x]= player;
+        y+=1;
+    }
+}
+
+int flipWest(int x ,int y, int table[row][column],int player){     ////
+    if (validWest(x,y,x,y,table,player)== -1)  return 0;
+    table[y][x] = player;
+    x-=1;
+    while(table[y][x] == 3 - player){
+        table[y][x]= player;
+        x-=1;
+    }
+}
+
+int flipEast(int x ,int y, int table[row][column],int player){     ////
+    if (validEast(x,y,x,y,table,player)== -1)  return 0;
+    table[y][x] = player;
+    x+=1;
+    while(table[y][x] == 3 - player){
+        table[y][x]=player;
+        x+=1;
+    }
+}
+
+int flipNW(int x ,int y, int table[row][column],int player){       ////
+    if (validNW(x,y,x,y,table,player)== -1)  return 0;
+    table[y][x] = player;
+    y-=1;   x-=1;
+    while(table[y][x] == 3 - player){
+        table[y][x]= player;
+        y-=1;   x-=1;
+    }
+}
+
+int flipNE(int x ,int y, int table[row][column],int player){
+    if (validNE(x,y,x,y,table,player)== -1)  return 0;
+    table[y][x] = player;
+    y-=1;   x+=1;
+    while(table[y][x] == 3 - player){
+        table[y][x]= player;
+        y-=1;   x+=1;
+    }
+}
+
+int flipSW(int x ,int y, int table[row][column],int player){
+    if (validSW(x,y,x,y,table,player)== -1)  return 0;
+    table[y][x] = player;
+    y+=1;   x-=1;
+    while(table[y][x] == 3 - player){
+        table[y][x]= player;
+        y+=1;   x-=1;
+    }
+}
+
+int flipSE(int x ,int y, int table[row][column],int player){
+    if (validSE(x,y,x,y,table,player)== -1)  return 0;
+    table[y][x] = player;
+    y+=1;   x+=1;
+    while(table[y][x] == 3 - player){
+        table[y][x]= player;
+        y+=1;   x+=1;
+    }
+}
+
+void doFlip(int x ,int y, int table[row][column],int player){
+    flipNorth(x ,y,table,player);
+    flipSouth(x ,y,table,player);
+    flipEast(x ,y,table,player);
+    flipWest(x ,y,table,player);
+    flipNE(x ,y,table,player);
+    flipNW(x ,y,table,player);
+    flipSE(x ,y,table,player);
+    flipSW(x ,y,table,player);
+}
+
 ///////////////////////////// Strategies ///////////////////////////////////////
 
 int random(const int table[row][column],int player,int listOfValidSquares[]){
@@ -288,3 +390,6 @@ int positional(const int table[row][column],int player,int listOfValidSquares[])
     return listOfValidSquares[bestSqr] ;
 }
 
+int evalBoard(const int table[row][column],int player,int listOfValidSquares[]){
+
+}
