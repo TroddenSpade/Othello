@@ -46,9 +46,12 @@ int const Position2d[row][column]={
 
 void defineTable(int table[row][column],char *argv[]);
 void printTable(int table[row][column]);
+int copyBoard(const int table[row][column],int board[row][column]);
+int evalBoard(const int table[row][column],int player,int listOfValidSquares[]);
+int eval(const int table[row][column],int player);
 
 //////////////////////// Strategies ////////////////////////////////////
-int random(const int table[row][column],int player,int listOfValidSquares[]);
+int randomM(const int table[row][column],int player,int listOfValidSquares[]);
 int positional(const int table[row][column],int player,int listOfValidSquares[]);
 
 //////////////////////// Valid Moves ///////////////////////////////////
@@ -77,36 +80,38 @@ void doFlip(int x ,int y, int table[row][column],int player);
 
 int main(int argc,char *argv[])
 {
-    // int table[row][column];
-    int table[row][column]={
-        {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+    int table[row][column];
+    // int table[row][column]={
+    //     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-        {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+    //     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-        {0 ,0 ,0 ,1 ,2 ,0 ,0 ,0},
+    //     {0 ,0 ,0 ,1 ,2 ,0 ,0 ,0},
 
-        {0 ,0 ,0 ,1 ,2 ,0 ,0 ,0},
+    //     {0 ,0 ,0 ,1 ,2 ,0 ,0 ,0},
 
-        {0 ,0 ,0 ,1 ,2 ,0 ,0 ,0},
+    //     {0 ,0 ,0 ,1 ,2 ,0 ,0 ,0},
 
-        {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+    //     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-        {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
+    //     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0},
 
-        {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0}
-    };
+    //     {0 ,0 ,0 ,0 ,0 ,0 ,0 ,0}
+    // };
 
     int listOfValidSquares[64];
 
-    // int const Player= argv[9][0]-48;
+    int const Player= argv[9][0]-48;
 
-    // defineTable(table,argv);
+    defineTable(table,argv);
 
-    // int num = random(table,Player,listOfValidSquares);
+    // int num = randomM(table,Player,listOfValidSquares);
     // int num = positional(table,Player,listOfValidSquares);
-    doFlip(5,2,table,1);
-    printTable(table);
-    // printf("%d %d",num%8,num/8);
+    int num = evalBoard(table,Player,listOfValidSquares);
+
+    // doFlip(x,y,table,1);
+    // printTable(table);
+    printf("%d %d",num%8,num/8);
     // printf("%d",validWest(5,2,5,2,table,1));
 
     return 0;
@@ -386,7 +391,7 @@ void doFlip(int x ,int y, int table[row][column],int player){
 
 ///////////////////////////// Strategies ///////////////////////////////////////
 
-int random(const int table[row][column],int player,int listOfValidSquares[]){
+int randomM(const int table[row][column],int player,int listOfValidSquares[]){
     int size = validSquares(table , player ,listOfValidSquares);
     if(size ==0)    return -1;
     srand(time(NULL));
@@ -408,21 +413,6 @@ int positional(const int table[row][column],int player,int listOfValidSquares[])
     return listOfValidSquares[bestSqr] ;
 }
 
-int evalBoard(const int table[row][column],int player,int listOfValidSquares[]){
-    int bestSqr;
-    int bestValue=-1;
-    for(int i=0;i<validSquares(table,player,listOfValidSquares);i++){
-        int x=listOfValidSquares[i]%8;
-        int y=listOfValidSquares[i]/8;
-        if (bestvalue<eval(table,player))
-        {
-            bestval=eval(table,player);
-            bestsqr=listOfValidSquares[i];
-        }
-    }     
-    return bestSqr;
-}
-
 int eval(const int table[row][column],int player)
 {
     int count=0;
@@ -435,6 +425,25 @@ int eval(const int table[row][column],int player)
         }
     }
     return count;
+}
+
+int evalBoard(const int table[row][column],int player,int listOfValidSquares[]){
+    int bestSqr;
+    int bestValue=-1;
+    for(int i=0;i<validSquares(table,player,listOfValidSquares);i++){
+        int board[row][column];
+        copyBoard(table,board);
+        int x=listOfValidSquares[i]%8;
+        int y=listOfValidSquares[i]/8;
+        doFlip(x,y,board,player);
+        // printTable(board);
+        if (bestValue<eval(board,player))
+        {
+            bestValue =eval(table,player);
+            bestSqr=listOfValidSquares[i];
+        }
+    }     
+    return bestSqr;
 }
 
 int copyBoard(const int table[row][column],int board[row][column]){
